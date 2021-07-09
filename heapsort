@@ -1,0 +1,41 @@
+void swap(int *x, int *y) {
+    int key  = *x;
+    *x = *y;
+    *y = key;
+}
+void adjust_ele(int *nums, int i, int numsSize)
+{
+    int parent = i, child = 2*i+1;
+    while(child<numsSize)
+    {
+        if(child+1<numsSize && nums[child]<nums[child+1])
+        {
+            child++;
+        }
+        if(nums[parent]<nums[child])
+        {
+            swap(&nums[parent], &nums[child]);
+            parent = child;
+        }
+        child = child*2+1;
+    }
+}
+void heapsort(int *nums, int numsSize)
+{
+    int i=0;
+    //构造堆
+    for(int i=numsSize/2-1; i>=0; i--)
+    {
+        adjust_ele(nums, i, numsSize);
+    }
+    for(int i=numsSize-1; i>0; i--)
+    {
+        swap(&nums[0], &nums[i]);
+        adjust_ele(nums, 0, i);
+    }
+}
+int* sortArray(int* nums, int numsSize, int* returnSize){
+    heapsort(nums, numsSize);
+    *returnSize = numsSize;
+    return nums;
+}
